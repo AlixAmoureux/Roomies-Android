@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/action_home"
+        android:title="Acueil"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        android:icon="@drawable/home"
+        />
+    <item
+        android:id="@+id/action_dettes"
+        android:title="Dettes"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        android:icon="@drawable/dollar"
+        />
+    <item
+        android:id="@+id/action_listes"
+        android:title="Listes"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        android:icon="@drawable/list"
+        />
+    <item
+        android:id="@+id/action_sous_menu"
+        android:title="Options"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        android:icon="@drawable/settings"
+        />
+</menu>

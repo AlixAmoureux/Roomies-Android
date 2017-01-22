@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Roomies</string>
+
+    <string name="SignIn_info">Please enter your email address and your password to sign-in :</string>
+    <string name="SignIn_email">Email address</string>
+    <string name="SignIn_password">Password</string>
+    <string name="SignIn_button">Sign-In</string>
+    <string name="CreateAccount">Create Account</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="first_name_compulsory">First name *</string>
+    <string name="last_name_compulsory">Last name *</string>
+    <string name="prompt_email_compulsory">Email address *</string>
+    <string name="prompt_password_compulsory">Password *</string>
+    <string name="prompt_password_confirm_compulsory">Confirm password *</string>
+    <string name="prompt_city_compulsory">City *</string>
+    <string name="prompt_state_compulsory">State *</string>
+
+    <string name="create_colocation">Create a Roomies group</string>
+    <string name="join_colocation">Join a Roomies group</string>
+
+    <string name="coloc_name">Roomies group name *</string>
+    <string name="coloc_description">Description *</string>
+    <string name="next">Next</string>
+
+    <string name="url_base">http://192.168.1.73:4040</string>
+    <string name="action_search">Rechercher</string>
+</resources>

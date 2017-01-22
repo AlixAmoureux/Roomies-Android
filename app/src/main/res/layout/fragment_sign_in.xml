@@ -1,0 +1,131 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/SignIn_info"
+                android:padding="20px"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textStyle="italic"
+                android:fontFamily="MV Boli"
+                android:textSize="18dp"
+                android:layout_marginBottom="20dp"
+
+                />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+
+                >
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/SignIn_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/shapes"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:fontFamily="MV Boli"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+
+                >
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/SignIn_password"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textStyle="italic"
+                    android:background="@drawable/shapes"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:fontFamily="MV Boli"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Erreur de connexion"
+                android:gravity="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:fontFamily="MV Boli"
+                android:textSize="18dp"
+                android:visibility="invisible"
+
+                />
+
+            <Button
+                android:id="@+id/sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/SignIn_button"
+                android:textColor="@android:color/black"
+                android:background="@drawable/shapes"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="MV Boli"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textAllCaps="false"
+                />
+
+
+            <Button
+                android:id="@+id/sign_up_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/CreateAccount"
+                android:textColor="@android:color/black"
+                android:background="@drawable/shapes"
+                android:layout_gravity="center_horizontal|bottom"
+                android:fontFamily="MV Boli"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textAllCaps="false"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

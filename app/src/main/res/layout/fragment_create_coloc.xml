@@ -1,0 +1,71 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="15dp"
+    >
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+        >
+        <EditText
+            android:id="@+id/coloc_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/coloc_name"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:maxLines="1"
+            android:background="@drawable/shapes"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:fontFamily="MV Boli"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unknown_user"
+            android:layout_gravity="center"
+            android:id="@+id/create_coloc_image"
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            >
+            <EditText
+                android:id="@+id/coloc_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/coloc_description"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:lines="5"
+                android:background="@drawable/shapes"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:fontFamily="MV Boli"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        style="?android:textAppearanceSmall"
+        android:background="@drawable/shapes"
+        android:fontFamily="MV Boli"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/create_coloc_button"
+        />
+</LinearLayout>
