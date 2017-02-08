@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
-import roomies.com.roomies.mainactivityviews.CreateColocFragment;
-import roomies.com.roomies.mainactivityviews.ListColocFragment;
+import roomies.com.roomies.mainactivityviews.managecoloc.createcoloc.CreateColocFragment;
+import roomies.com.roomies.mainactivityviews.managecoloc.joincoloc.ListColocFragment;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -38,17 +38,11 @@ public class SecondActivity extends AppCompatActivity {
                 Fragment f = null;
                 switch (item.getItemId())
                 {
-                    case R.id.action_dettes:
-                        f = new CreateColocFragment();
-                        break;
                     case R.id.action_home:
                         f = new ListColocFragment();
                         break;
-                    case R.id.action_listes:
-
-                        break;
-                    case R.id.action_sous_menu:
-
+                    case R.id.action_dettes:
+                        f = new CreateColocFragment();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, f)

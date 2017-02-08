@@ -32,6 +32,7 @@
             android:src="@drawable/unknown_user"
             android:layout_gravity="center"
             android:id="@+id/create_coloc_image"
+            android:scaleType="fitCenter"
             />
 
         <android.support.design.widget.TextInputLayout

@@ -1,9 +1,8 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,9 +24,9 @@
                 <ImageButton
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="70"
+                    android:layout_weight="60"
                     android:src="@drawable/unknown_user"
-                    android:scaleType="fitXY"
+                    android:scaleType="fitCenter"
                     android:background="@drawable/shapes"
                     android:id="@+id/signup_photo"
                     />
@@ -106,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-
+                app:passwordToggleEnabled="true"
                 >
 
                 <EditText
@@ -116,6 +115,7 @@
                     android:hint="@string/prompt_password_compulsory"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
+
                     android:maxLines="1"
                     android:background="@drawable/shapes"
                     android:paddingLeft="15dp"
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-
+                app:passwordToggleEnabled="true"
                 >
 
                 <EditText
@@ -156,7 +156,7 @@
                 >
 
                 <AutoCompleteTextView
-                    android:id="@+id/signup_city_compulsory"
+                    android:id="@+id/signup_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_city_compulsory"

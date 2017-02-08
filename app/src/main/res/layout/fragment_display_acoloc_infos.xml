@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="roomies.com.roomies.mainactivityviews.DisplayAColocInfosFragment">
+    tools:context="roomies.com.roomies.mainactivityviews.managecoloc.joincoloc.DisplayAColocInfosFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
