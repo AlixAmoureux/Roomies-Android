@@ -31,4 +31,9 @@
     <string name="url_base">http://192.168.1.73:4040</string>
     <string name="action_search">Rechercher</string>
     <string name="finish">Terminer</string>
+    <string name="profile">Profile</string>
+    <string name="roomies_group">Roomies Group</string>
+    <string name="profile_informations">Update your profile informations</string>
+    <string name="roomies_informations">Update your roomies group informations</string>
+    <string name="members">Members :</string>
 </resources>

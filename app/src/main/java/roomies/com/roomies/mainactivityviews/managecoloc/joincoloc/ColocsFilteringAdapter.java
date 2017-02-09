@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.informations.ColocsInfos;
 
-class ColocsAdapter extends BaseAdapter implements Filterable {
-    protected List<ColocsInfos> colocations;
+class ColocsFilteringAdapter extends BaseAdapter implements Filterable {
+    private List<ColocsInfos> colocations;
     private List<ColocsInfos> colocationsDisplayed;
     private Filter colocFilter;
 
-    ColocsAdapter() {
+    ColocsFilteringAdapter() {
         this.colocFilter = new ColocsFilter();
         this.colocationsDisplayed = new ArrayList<>();
         this.colocations = new ArrayList<>();
@@ -59,12 +60,12 @@ class ColocsAdapter extends BaseAdapter implements Filterable {
         }
 
         ColocsInfos colocation = colocationsDisplayed.get(position);
-        holder.colocName.setText(colocation.getTitle());
+        holder.colocName.setText(colocation.title);
 
-        Picasso.with(parent.getContext())
-                .load(colocation.getPicturePath())
+        /*Picasso.with(parent.getContext())
+                .load(colocation.picturePath)
                 .error(R.drawable.unknown_user)
-                .into(holder.colocPhoto);
+                .into(holder.colocPhoto);*/
 
         return convertView;
     }
@@ -85,7 +86,7 @@ class ColocsAdapter extends BaseAdapter implements Filterable {
         return colocFilter;
     }
 
-    public class ColocsFilter extends Filter
+    private class ColocsFilter extends Filter
     {
         @Override
         protected FilterResults performFiltering(CharSequence constraint)
@@ -96,7 +97,7 @@ class ColocsAdapter extends BaseAdapter implements Filterable {
             else {
                 for (ColocsInfos tmpColocation : colocations)
                 {
-                    if (tmpColocation.getTitle().trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
+                    if (tmpColocation.title.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
                     {
                         tmpList.add(tmpColocation);
                     }

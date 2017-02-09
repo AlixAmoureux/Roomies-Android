@@ -36,7 +36,8 @@ import java.util.Map;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.SecondActivity;
-import roomies.com.roomies.mainactivityviews.managecoloc.joincoloc.MySearchView;
+import roomies.com.roomies.MySearchView;
+import roomies.com.roomies.informations.users.MembersInfo;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
@@ -50,7 +51,7 @@ public class AddMembersFragment extends Fragment {
     private ListView listView;
     private SearchView searchView;
     private String token;
-    private MembersAdapter adapter;
+    private MembersFilteringAdapter adapter;
     private SharedPreferences prefs;
     private Button finish;
 
@@ -58,7 +59,7 @@ public class AddMembersFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listMembers = new ArrayList<>();
-        adapter = new MembersAdapter();
+        adapter = new MembersFilteringAdapter();
         setHasOptionsMenu(true);
     }
 
@@ -112,7 +113,7 @@ public class AddMembersFragment extends Fragment {
                             MembersInfo tmpColocs = new MembersInfo(json);
                             listMembers.add(tmpColocs);
                         }
-                        adapter.setData(listMembers);
+                        adapter.setData(listMembers, getContext(), getActivity());
                         listView.setAdapter(adapter);
                     } catch (JSONException e) {
                     }

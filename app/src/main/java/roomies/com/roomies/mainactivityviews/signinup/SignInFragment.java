@@ -2,13 +2,10 @@ package roomies.com.roomies.mainactivityviews.signinup;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,14 +29,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import roomies.com.roomies.ManageObjects;
 import roomies.com.roomies.R;
 import roomies.com.roomies.SecondActivity;
+import roomies.com.roomies.informations.users.ConnectedUserInfo;
 
 public class SignInFragment extends Fragment {
     private Button sign_up;
     private Button sign_in;
     private Fragment f;
-    private SharedPreferences.Editor editor;
     EditText email;
     EditText password;
     TextView error_message;
@@ -162,17 +160,13 @@ public class SignInFragment extends Fragment {
                 public void onResponse(JSONObject response)
                 {
                     try {
-                        Log.e("Sign IN", "Lecture JSON 1 !");
+
                         String token = response.getString("token");
-                        final SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                        prefs.putString("token", token);
-                        prefs.apply();
-                        Log.e("Sign IN", "Lecture JSON 2 !");
+                        ConnectedUserInfo user = new ConnectedUserInfo(response);
+                        user.token = token;
+                        ManageObjects.writeObjectInPrefs(user, "userInfo", getContext());
                         Intent toSecondActivity = new Intent(getActivity(), SecondActivity.class);
                         startActivity(toSecondActivity);
-
-                        //getActivity().finish();
-
                     }
                     catch (JSONException e)
                     {

@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import roomies.com.roomies.mainactivityviews.managecoloc.createcoloc.CreateColocFragment;
 import roomies.com.roomies.mainactivityviews.managecoloc.joincoloc.ListColocFragment;
+import roomies.com.roomies.secondactivityviews.parameters.ParametersFragment;
+import roomies.com.roomies.informations.users.ConnectedUserInfo;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -22,6 +24,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        ConnectedUserInfo user = ManageObjects.readUserInfosInPrefs("userInfo", this);
         Log.e("Second Activity", "onCreate 1 !");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_bar);
@@ -43,6 +46,9 @@ public class SecondActivity extends AppCompatActivity {
                         break;
                     case R.id.action_dettes:
                         f = new CreateColocFragment();
+                        break;
+                    case R.id.action_sous_menu:
+                        f = new ParametersFragment();
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, f)

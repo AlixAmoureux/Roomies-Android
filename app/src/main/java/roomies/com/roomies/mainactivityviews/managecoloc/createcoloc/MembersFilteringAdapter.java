@@ -1,6 +1,9 @@
 package roomies.com.roomies.mainactivityviews.managecoloc.createcoloc;
 
-import android.media.Image;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,24 +15,38 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.informations.users.MembersInfo;
 
-/**
- * Created by xila on 05/02/2017.
- */
 
-public class MembersAdapter extends BaseAdapter implements Filterable{
+class MembersFilteringAdapter extends BaseAdapter implements Filterable{
 
-    protected List<MembersInfo> members;
+    private List<MembersInfo> members;
     private List<MembersInfo> membersDisplayed;
     private Filter membersFilter;
+    private String colocId;
+    private String token;
+    private String userId;
+    private Context context;
+    private Activity m_activity;
 
-    MembersAdapter() {
+    MembersFilteringAdapter() {
         this.membersFilter = new MembersFilter();
         this.membersDisplayed = new ArrayList<>();
         this.members = new ArrayList<>();
@@ -52,7 +69,7 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        MembersAdapter.ViewHolder holder;
+        final MembersFilteringAdapter.ViewHolder holder;
         if (convertView == null)
         {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -67,15 +84,22 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
         }
 
         final MembersInfo member = membersDisplayed.get(position);
-        holder.memberLastName.setText(member.getLastName());
-        holder.memberFirstName.setText(member.getFirstName());
-        holder.memberCity.setText(member.getCity());
+        holder.memberLastName.setText(member.lastName);
+        holder.memberFirstName.setText(member.firstName);
+        holder.memberCity.setText(member.city);
 
         holder.memberInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.e("MemberAdapter", "Envoi d'une invitation");
-                Log.e("MemberAdapter", "Id = " + member.getId());
+                Log.e("MemberAdapter", "Id = " + member.id);
+                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                colocId = prefs.getString("coloc_id", "");
+                token = prefs.getString("token", "");
+                userId = member.id;
+                holder.memberInvite.setVisibility(View.INVISIBLE);
+                holder.memberInvite.setClickable(false);
+                createRequest();
 
                 // Envoi d'une requête pour ajouter le membre
             }
@@ -89,7 +113,51 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
         return convertView;
     }
 
-    public void setData(List<MembersInfo> tmpMembers)
+    private void createRequest()
+    {
+        String url = context.getString(R.string.url_base) +  "/api/roomies-group/" + colocId + "/requests";
+        RequestQueue requestQueue = Volley.newRequestQueue(m_activity);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userID", userId);
+        }
+        catch(JSONException e) {
+            Log.e("Volley", e.getMessage());
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>()
+                {
+                    @Override
+                    public void onResponse(JSONObject response)
+                    {
+                        Log.e("createRequest", "ça a marché !");
+                       /* try {
+
+                        }
+                        catch (JSONException e)
+                        {
+                            Log.e("ERROR VOLLEY", e.getMessage());
+                        }*/
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("AddMember", error.getMessage());
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                final Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public void setData(List<MembersInfo> tmpMembers, Context context, Activity activity)
     {
         if (this.members.size() != 0)
             this.members.clear();
@@ -97,6 +165,8 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
             this.membersDisplayed.clear();
         this.members = new ArrayList<>(tmpMembers);
         this.membersDisplayed = new ArrayList<>(tmpMembers);
+        this.context = context;
+        this.m_activity = activity;
         notifyDataSetChanged();
     }
 
@@ -116,11 +186,11 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
             else {
                 for (MembersInfo tmpMember : members)
                 {
-                    if (tmpMember.getFirstName().trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
+                    if (tmpMember.firstName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
                     {
                         tmpList.add(tmpMember);
                     }
-                    else if (tmpMember.getLastName().trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
+                    else if (tmpMember.lastName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
                     {
                         tmpList.add(tmpMember);
                     }
@@ -145,7 +215,7 @@ public class MembersAdapter extends BaseAdapter implements Filterable{
         }
     }
 
-    private static class ViewHolder
+    private class ViewHolder
     {
         TextView memberLastName;
         TextView memberFirstName;

@@ -34,7 +34,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import roomies.com.roomies.ManageObjects;
+import roomies.com.roomies.MySearchView;
 import roomies.com.roomies.R;
+import roomies.com.roomies.informations.ColocsInfos;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
@@ -51,15 +54,22 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
 
     private static final String TAG = "ListColocFragment";
 
-    private ColocsAdapter adapter;
+    private ColocsFilteringAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("ListColoc", "onCreate !");
+        //Log.e("ListColoc", "onCreate !");
 
-        colocsInfos = new ArrayList<>();
-        adapter = new ColocsAdapter();
+        new Thread(new Runnable() {
+            public void run() {
+                colocsInfos = new ArrayList<>();
+                prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                token = prefs.getString("token", "");
+                adapter = new ColocsFilteringAdapter();
+                getDatasFromRequest();
+            }
+        }).start();
         setHasOptionsMenu(true);
     }
 
@@ -67,7 +77,7 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Log.e("ListColoc", "onCreateView !");
+        //Log.e("ListColoc", "onCreateView !");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list_coloc, container, false);
         listView = (ListView) v.findViewById(R.id.listview_join_coloc);
@@ -79,22 +89,19 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("ListColoc", "onActivityCreated !");
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        token = prefs.getString("token", "");
+        //Log.e("ListColoc", "onActivityCreated !");
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Join a Roomies group");
-        Log.e("ListColoc", "onResume !");
-        getDatasFromRequest();
+        //Log.e("ListColoc", "onResume !");
     }
 
     private void getDatasFromRequest()
     {
-
         // HTTP POST
         String url = getString(R.string.url_base) +  "/api/roomies-group";
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -145,10 +152,7 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
 
     public void onItemClick(AdapterView<?> l, View v, int position, long id)
     {
-        /*
-            TODO : récupérer la nouvelle liste colocDisplayed et l'id dans le cas d'un filtre
-         */
-        String coloc_id = colocsInfos.get(position).getId();
+        String coloc_id = colocsInfos.get(position).id;
 
         SharedPreferences.Editor editor;
         editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();

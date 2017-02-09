@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.Requests.RequestPost;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -98,7 +99,9 @@ public class CreateColocFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap bmp = null;
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            try {
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
@@ -110,8 +113,8 @@ public class CreateColocFragment extends Fragment
             imagePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Bitmap bmp = null;
-            try {
+
+
                 bmp = getBitmapFromUri(selectedImage);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -156,21 +159,51 @@ public class CreateColocFragment extends Fragment
         {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
-            if (name_problem == true)
+            if (name_problem)
                 coloc_name.requestFocus();
             else
                 coloc_description.requestFocus();
         }
         else {
-            createColoc(coloc_name_val, coloc_desc_val);
-            Fragment newFragment = new AddMembersFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
+                /*final Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + token);
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("title", coloc_name_val);
+                    body.put("description", coloc_desc_val);
+                    body.put("picturePath", imagePath);
+                }
+                catch(JSONException e) {
+                    Log.e("Volley", e.getMessage());
+                }
+                RequestPost requestPost = new RequestPost("/api/roomies-group", getActivity(), headers, body);
+                requestPost.postDatas();
+                JSONObject response = requestPost.getResponse();
+                this.getDatas(response);*/
+
+                createColoc(coloc_name_val, coloc_desc_val);
+                Fragment newFragment = new AddMembersFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
         }
     }
 
+    /*private void getDatas(JSONObject response)
+    {
+      try {
+            String coloc_id = response.getString("id");
+            final SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+            prefs.putString("coloc_id", coloc_id);
+            prefs.apply();
+        }
+        catch (JSONException e)
+        {
+            Log.e("ERROR VOLLEY", e.getMessage());
+        }
+    }*/
 
     private void createColoc(final String coloc_name_val, final String coloc_desc_val)
     {
