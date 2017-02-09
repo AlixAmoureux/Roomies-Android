@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="roomies.com.roomies.secondactivityviews.parameters.ParametersFragment">
+    tools:context="roomies.com.roomies.controlers.secondactivity.parameters.ParametersFragment">
 
 
     <LinearLayout

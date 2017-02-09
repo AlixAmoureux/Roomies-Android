@@ -3,6 +3,24 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="e01a72120b2a6dd29742990f724b21e55bed352d">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_4a552027995a2e14c1f68dd576dc42e9c0fcf086\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\xila\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_0c414d0f688775a2907096f4981e1c5367666eda\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -30,66 +48,21 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="1e2e32c6b66eeeb758668d00c55c11cb73913059">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6bab7a5a605bf3f007547e65df6c58e16a5713d4\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\25.1.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="e79aa3d9a16f8c9f16377c0608de70a8f31e5d80">
         <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-25.1.0_5818942cf93c3ebb02025c0daed7f042d003aff3\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="aee64634871d88a419d59eb743c1258a60f19700">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.0_19c61bcbe2e446d2f9100dbcae5fe0f22d18c25e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.4_66d1402385e94154983096fe53c091a16256ab9e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.0_f267dbca967ef26eb6089c14cb3268badc2d1cfa\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="e01a72120b2a6dd29742990f724b21e55bed352d">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_4a552027995a2e14c1f68dd576dc42e9c0fcf086\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_0c414d0f688775a2907096f4981e1c5367666eda\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="62aaca6c825675a8f0ad4e98a913e6ee871970b7">
-        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6bab7a5a605bf3f007547e65df6c58e16a5713d4\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -153,6 +126,33 @@
         revision="24.0.3"
         sha1="64cb6b229a8bdfd907bc8dd46839a0053e4c018d">
         <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.1.0_de4fc0e08ef9fd3eb95f4b95e3fd9544a1c25eb6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="aee64634871d88a419d59eb743c1258a60f19700">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-25.1.0_19c61bcbe2e446d2f9100dbcae5fe0f22d18c25e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\xila\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.4_66d1402385e94154983096fe53c091a16256ab9e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\25.1.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
+        <dex dex="C:\Users\xila\Desktop\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-25.1.0_f267dbca967ef26eb6089c14cb3268badc2d1cfa\classes.dex" />
     </item>
     <item
         is-multidex="true"
