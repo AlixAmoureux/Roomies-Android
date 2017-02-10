@@ -44,25 +44,6 @@ public class ColocDetailsFragment extends Fragment {
     private RequestQueue mRequestQueue;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mMembers = new ArrayList<>();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mColocId = prefs.getString("coloc_id", "");
-        mToken = (ManageObjects.readUserInfosInPrefs(getContext(), "userInfos")).token;
-        mRequestQueue = Volley.newRequestQueue(getActivity());
-        mAdapter = new MembersAdapter();
-
-        new Thread(new Runnable() {
-            public void run() {
-                Log.d(TAG, "run: Thread is running.");
-                getColocMembersFromRequest();
-            }
-        }).start();
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_coloc_details, container, false);
@@ -77,6 +58,20 @@ public class ColocDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        mMembers = new ArrayList<>();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mColocId = prefs.getString("coloc_id", "");
+        mToken = (ManageObjects.readUserInfosInPrefs(getContext(), "userInfos")).token;
+        mRequestQueue = Volley.newRequestQueue(getActivity());
+        mAdapter = new MembersAdapter();
+
+        new Thread(new Runnable() {
+            public void run() {
+                Log.d(TAG, "run: Thread is running.");
+                getColocMembersFromRequest();
+            }
+        }).start();
 
         getActivity().setTitle("Roomies Group Name");
         mMembers = mAdapter.getMembers();

@@ -39,42 +39,25 @@ import java.util.Map;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ColocsListFragment extends Fragment implements AdapterView.OnItemClickListener
-{
+public class ColocsListFragment extends Fragment implements AdapterView.OnItemClickListener {
+    private static final String TAG = "ColocsListFragment";
     private SharedPreferences prefs;
     private List<ColocsInfos> colocsInfos;
     private String token;
     private ListView listView;
     private SearchView searchView;
-
-    private static final String TAG = "ColocsListFragment";
-
     private ColocsFilteringAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Log.e("ListColoc", "onCreate !");
-
-        new Thread(new Runnable() {
-            public void run() {
-                colocsInfos = new ArrayList<>();
-                prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                token = prefs.getString("token", "");
-                adapter = new ColocsFilteringAdapter();
-                getDatasFromRequest();
-            }
-        }).start();
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         //Log.e("ListColoc", "onCreateView !");
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list_coloc, container, false);
@@ -96,78 +79,15 @@ public class ColocsListFragment extends Fragment implements AdapterView.OnItemCl
         super.onResume();
         getActivity().setTitle("Join a Roomies group");
         //Log.e("ListColoc", "onResume !");
+        colocsInfos = new ArrayList<>();
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        token = prefs.getString("token", "");
+        adapter = new ColocsFilteringAdapter();
+        getDatasFromRequest();
     }
-
-    private void getDatasFromRequest()
-    {
-        // HTTP POST
-        String url = getString(R.string.url_base) +  "/api/roomies-group";
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        try
-        {
-            StringRequest jsonobject = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response)
-                {
-                    try {
-                        JSONArray users = new JSONArray(response);
-                        for (int i = 0; i < users.length(); i++)
-                        {
-                            JSONObject json = users.getJSONObject(i);
-                            ColocsInfos tmpColocs = new ColocsInfos(json);
-                            colocsInfos.add(tmpColocs);
-                        }
-                        adapter.setData(colocsInfos);
-                        listView.setAdapter(adapter);
-                    }
-                    catch (JSONException e)
-                    {
-                        Log.e("ERROR VOLLEY", e.getMessage());
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("ERROR VOLLEY", error.getMessage());
-                }
-            })
-            {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    final Map<String, String> headers = new HashMap<>();
-                    headers.put("Content-Type", "Application/json");
-                    headers.put("Authorization", "Bearer " + token);
-                    return headers;
-                }
-            };
-            requestQueue.add(jsonobject);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void onItemClick(AdapterView<?> l, View v, int position, long id)
-    {
-        String coloc_id = colocsInfos.get(position).id;
-
-        SharedPreferences.Editor editor;
-        editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-        editor.putString("coloc_id", coloc_id);
-        editor.apply();
-
-        Fragment newFragment = new ColocDetailsFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         /*inflater.inflate(R.menu.menu_join_coloc, menu);
@@ -188,27 +108,82 @@ public class ColocsListFragment extends Fragment implements AdapterView.OnItemCl
             }
         });*/
 
-        MenuItem searchAction = menu.add(0, 0, 0 , getString(R.string.action_search));
+        MenuItem searchAction = menu.add(0, 0, 0, getString(R.string.action_search));
         searchAction.setShowAsAction(SHOW_AS_ACTION_ALWAYS);
         searchView = new MySearchView(getContext());
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return true;
-            }
+                                              @Override
+                                              public boolean onQueryTextSubmit(String query) {
+                                                  return true;
+                                              }
 
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                Log.e(TAG, "onQueryTextChange: " + newText);
-                adapter.getFilter().filter(newText);
-                colocsInfos.clear();
-                colocsInfos = adapter.getColocations();
-                return true;
-            }
-        }
+                                              @Override
+                                              public boolean onQueryTextChange(String newText) {
+                                                  Log.e(TAG, "onQueryTextChange: " + newText);
+                                                  adapter.getFilter().filter(newText);
+                                                  colocsInfos.clear();
+                                                  colocsInfos = adapter.getColocations();
+                                                  return true;
+                                              }
+                                          }
         );
         searchView.setIconifiedByDefault(true);
         searchAction.setActionView(searchView);
+    }
+
+    private void getDatasFromRequest() {
+        // HTTP POST
+        String url = getString(R.string.url_base) + "/api/roomies-group";
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        try {
+            StringRequest jsonobject = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray users = new JSONArray(response);
+                        for (int i = 0; i < users.length(); i++) {
+                            JSONObject json = users.getJSONObject(i);
+                            ColocsInfos tmpColocs = new ColocsInfos(json);
+                            colocsInfos.add(tmpColocs);
+                        }
+                        adapter.setData(colocsInfos);
+                        listView.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        Log.e("ERROR VOLLEY", e.getMessage());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("ERROR VOLLEY", error.getMessage());
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    final Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "Application/json");
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+            requestQueue.add(jsonobject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+        String coloc_id = colocsInfos.get(position).id;
+
+        SharedPreferences.Editor editor;
+        editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+        editor.putString("coloc_id", coloc_id);
+        editor.apply();
+
+        Fragment newFragment = new ColocDetailsFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
