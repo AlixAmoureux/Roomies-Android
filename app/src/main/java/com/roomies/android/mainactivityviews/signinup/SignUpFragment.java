@@ -30,7 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.roomies.android.R;
-import com.roomies.android.mainactivityviews.managecoloc.JointOrCreateColocFragment;
+import com.roomies.android.mainactivityviews.managecoloc.JoinOrCreateColocFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +129,7 @@ public class SignUpFragment extends Fragment {
 
                     getDatas();
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.container, new JointOrCreateColocFragment())
+                            .replace(R.id.container, new JoinOrCreateColocFragment())
                             .addToBackStack(null)
                             .commit();
                 }

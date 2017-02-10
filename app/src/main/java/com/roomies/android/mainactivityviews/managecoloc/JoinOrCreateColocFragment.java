@@ -12,7 +12,7 @@ import com.roomies.android.R;
 import com.roomies.android.mainactivityviews.managecoloc.createcoloc.CreateColocFragment;
 import com.roomies.android.mainactivityviews.managecoloc.joincoloc.ColocsListFragment;
 
-public class JointOrCreateColocFragment extends Fragment {
+public class JoinOrCreateColocFragment extends Fragment {
     private Button mJoinColocButton;
     private Button mCreateColocButton;
 
