@@ -188,9 +188,8 @@ public class RoomiesFragment extends Fragment {
         // HTTP POST
         String url = getString(R.string.url_base) +  "/api/roomies-group/" + roomieId;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        JSONObject jsonObject = new JSONObject();
+        JSONObject object =  new JSONObject();
         try {
-            JSONObject object =  new JSONObject();
             object.put("title", mNameVal);
             object.put("description", mDescriptionVal);
             object.put("picturePath", mPhotoPath);
@@ -198,7 +197,7 @@ public class RoomiesFragment extends Fragment {
         catch(JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
