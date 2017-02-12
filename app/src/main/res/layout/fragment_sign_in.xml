@@ -1,131 +1,137 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:padding="15dp">
 
-    >
 
-    <ScrollView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="MV Boli"
+        android:gravity="center"
+        android:padding="20dip"
+        android:text="@string/SignIn_info"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="italic"
+
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
 
         >
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:fontFamily="MV Boli"
+            android:hint="@string/SignIn_email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textColor="@android:color/black" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:fontFamily="MV Boli"
+            android:hint="@string/SignIn_password"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:textStyle="italic" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="MV Boli"
+        android:gravity="center"
+        android:text="@string/erreur_connexion"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="18sp"
+        android:visibility="invisible"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:id="@+id/sign_in_button"
+            style="?android:textAppearanceSmall"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+
+            android:background="@drawable/forme_arrondie_bleue"
+            android:fontFamily="MV Boli"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/SignIn_button"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <Button
+            android:id="@+id/sign_in_facebook"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dip"
+            android:adjustViewBounds="true"
+            android:background="@drawable/facebook_2"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/button_for_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             >
+        </Button>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/SignIn_info"
-                android:padding="20px"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:textStyle="italic"
-                android:fontFamily="MV Boli"
-                android:textSize="18dp"
-                android:layout_marginBottom="20dp"
+        <Button
+            android:id="@+id/sign_up_button"
+            style="?android:textAppearanceSmall"
 
-                />
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginTop="16dp"
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:fontFamily="MV Boli"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/CreateAccount"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
 
-                >
-                <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/SignIn_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/shapes"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:fontFamily="MV Boli"
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                app:passwordToggleEnabled="true"
-                >
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/SignIn_password"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textStyle="italic"
-                    android:background="@drawable/shapes"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:fontFamily="MV Boli"
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:id="@+id/error_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Erreur de connexion"
-                android:gravity="center"
-                android:textColor="@android:color/holo_red_dark"
-                android:fontFamily="MV Boli"
-                android:textSize="18dp"
-                android:visibility="invisible"
-
-                />
-
-            <Button
-                android:id="@+id/sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/SignIn_button"
-                android:textColor="@android:color/black"
-                android:background="@drawable/shapes"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="MV Boli"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textAllCaps="false"
-                />
-
-
-            <Button
-                android:id="@+id/sign_up_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/CreateAccount"
-                android:textColor="@android:color/black"
-                android:background="@drawable/shapes"
-                android:layout_gravity="center_horizontal|bottom"
-                android:fontFamily="MV Boli"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textAllCaps="false"
-                />
-
-        </LinearLayout>
-    </ScrollView>
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 </LinearLayout>

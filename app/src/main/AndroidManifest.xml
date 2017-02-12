@@ -13,8 +13,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
         <activity
-            android:name=".controlers.mainactivity.MainActivity"
+            android:name=".controllers.mainactivity.MainActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".controlers.secondactivity.SecondActivity"
+            android:name=".controllers.secondactivity.SecondActivity"
             android:windowSoftInputMode="stateHidden"/>
     </application>
 

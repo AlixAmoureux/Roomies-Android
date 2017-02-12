@@ -36,4 +36,17 @@
     <string name="profile_informations">Update your profile informations</string>
     <string name="roomies_informations">Update your roomies group informations</string>
     <string name="members">Members :</string>
+
+    <string name="facebook_app_id">1307699429249151</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="update_roomie">Update Roomie</string>
+    <string name="update_profile_success">Your profile has been updated !</string>
+    <string name="update_profile_error">Error : your profile has not been updated</string>
+    <string name="update_roomie_success">Your roomie has been updated !</string>
+    <string name="update_roomie_error">Error : your roomie has not been updated</string>
+    <string name="facebook">Facebook</string>
+    <string name="erreur_connexion">Erreur de connexion</string>
+    <string name="button_for_facebook">Button for facebook</string>
+    <string name="join_coloc">Join this group</string>
+    <string name="leave_roomie">Leave this roomie</string>
 </resources>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="roomies.com.roomies.controlers.secondactivity.parameters.ParametersFragment">
+    tools:context="roomies.com.roomies.controllers.secondactivity.parameters.ParametersFragment">
 
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginStart="10dip"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/forme_rectangulaire_bleue"
         android:orientation="vertical">
 
         <TextView
@@ -49,7 +49,7 @@
         android:layout_marginRight="10dip"
         android:layout_marginStart="10dip"
         android:layout_marginTop="30dip"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/forme_rectangulaire_bleue"
         android:orientation="vertical">
 
         <TextView

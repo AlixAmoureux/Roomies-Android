@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="20dip"
+        >
+
+        <ImageView
+            android:id="@+id/image_coloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/unknown_user"
+            android:layout_weight="40"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/coloc_description"
+            android:layout_weight="60"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dip"
+            android:minLines="5"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/members"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="italic|bold" />
+
+    <ListView
+        android:id="@+id/listview_coloc_members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:divider="#F2F2F2"
+        android:dividerHeight="10dp" />
+
+    <Button
+        android:layout_marginTop="20dip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_join_coloc"
+        android:text="@string/join_coloc"
+        android:background="@drawable/forme_arrondie_bleue"
+        android:layout_gravity="center_horizontal"
+        android:padding="15dip"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_coloc_request_message"
+        android:layout_marginTop="20dip"
+        android:gravity="center_horizontal"
+        />
+
+</LinearLayout>

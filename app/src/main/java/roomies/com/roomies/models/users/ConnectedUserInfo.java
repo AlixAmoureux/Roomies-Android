@@ -10,4 +10,9 @@ public class ConnectedUserInfo extends MembersInfo {
     public ConnectedUserInfo(JSONObject json) throws JSONException {
         super(json.getJSONObject("user"));
     }
+
+    public ConnectedUserInfo()
+    {
+
+    }
 }

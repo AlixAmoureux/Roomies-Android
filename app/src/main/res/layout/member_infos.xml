@@ -3,33 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    
+    android:layout_height="match_parent"
+    android:background="@drawable/forme_rectangulaire_bleue"
     >
-<!--    <ImageView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/unknown_user"
-        android:background="@drawable/rectangle"
         android:layout_weight="30"
         android:id="@+id/member_photo"
-        />-->
+        android:layout_marginLeft="20dip"
+        android:layout_marginStart="20dip"
+        android:layout_gravity="center_vertical"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="100"
         android:orientation="vertical"
+        android:layout_weight="70"
+        android:layout_marginLeft="30dip"
+        android:layout_marginStart="30dip"
+        android:layout_gravity="center"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/member_first_name"
+            android:textStyle="italic"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="15dip"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/member_last_name"
+            android:textStyle="italic"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="15dip"
+            android:layout_marginBottom="15dip"
             />
     </LinearLayout>
 </LinearLayout>

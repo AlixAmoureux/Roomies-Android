@@ -12,6 +12,7 @@ public class MembersInfo {
     public String email;
     public String id;
 
+
     public MembersInfo()
     {
 

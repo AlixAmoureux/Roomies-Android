@@ -10,6 +10,12 @@ public class ColocsInfos
     public String picturePath;
     public String createdAt;
     public String id;
+    public String status;
+
+    public ColocsInfos()
+    {
+
+    }
 
     public ColocsInfos(JSONObject json) throws JSONException
     {
@@ -25,6 +31,8 @@ public class ColocsInfos
         this.title = json.getString("title");
         this.id = json.getString("id");
         this.description = json.getString("description");
+        this.status = json.getString("description");
+        this.createdAt = json.getString("createdAt");
 
         // TODO createdAt
     }
