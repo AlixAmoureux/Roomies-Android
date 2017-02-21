@@ -1,14 +1,9 @@
 package roomies.com.roomies.controllers.secondactivity;
 
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -27,16 +22,13 @@ import java.util.Map;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.controllers.ManageObjects;
-import roomies.com.roomies.controllers.mainactivity.managecoloc.createcoloc.CreateColocFragment;
-import roomies.com.roomies.controllers.mainactivity.managecoloc.joincoloc.listcolocs.ListColocFragment;
-import roomies.com.roomies.controllers.secondactivity.parameters.ParametersFragment;
+import roomies.com.roomies.controllers.mainactivity.managecoloc.JointOrCreateColocFragment;
 import roomies.com.roomies.models.ColocsInfos;
-import roomies.com.roomies.models.users.ConnectedUserInfo;
 
 public class SecondActivity extends AppCompatActivity {
 
-    private BottomNavigationView mBottomBar;
     private String mToken;
+    private boolean mHasRoomies = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,44 +39,16 @@ public class SecondActivity extends AppCompatActivity {
         Log.e("Second Activity", "onCreate 1 !");
 
         mToken = ManageObjects.readUserInfosInPrefs("userInfos", this).token;
-        getRoomieInfos();
+        getRoomieInfos(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.top_bar);
         setSupportActionBar(toolbar);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new ListColocFragment()).commit();
-        }
-        Log.e("Second Activity", "onCreate 1 !");
-        mBottomBar = (BottomNavigationView) findViewById(R.id.navigation);
-        mBottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment f = null;
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        f = new ListColocFragment();
-                        break;
-                    case R.id.action_dettes:
-                        f = new CreateColocFragment();
-                        break;
-                    case R.id.action_sous_menu:
-                        f = new ParametersFragment();
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, f)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .addToBackStack(null)
-                        .commit();
-                return false;
-            }
-        });
     }
 
 
 
 
-    private void getRoomieInfos() {
+    private void getRoomieInfos(final Bundle savedInstanceState) {
         // HTTP POST
         String url = getString(R.string.url_base) + "/api/roomies-group/me";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -102,8 +66,16 @@ public class SecondActivity extends AppCompatActivity {
                                 Log.d("Second Activity", "C'est la bonne roomie !");
                                 ColocsInfos colocInfos = new ColocsInfos(roomie);
                                 ManageObjects.writeColocInfosInPrefs(colocInfos, "colocInfos", SecondActivity.this);
+                                mHasRoomies = true;
                                 break;
                             }
+                        }
+                        if (savedInstanceState == null)
+                        {
+                            if (mHasRoomies)
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, new HomeFragment()).commit();
+                            else
+                                getSupportFragmentManager().beginTransaction().add(R.id.container, new JointOrCreateColocFragment()).commit();
                         }
                     } catch (JSONException e) {
                         Log.e("ERROR VOLLEY", e.getMessage());

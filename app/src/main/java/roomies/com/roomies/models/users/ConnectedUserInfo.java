@@ -13,6 +13,5 @@ public class ConnectedUserInfo extends MembersInfo {
 
     public ConnectedUserInfo()
     {
-
     }
 }

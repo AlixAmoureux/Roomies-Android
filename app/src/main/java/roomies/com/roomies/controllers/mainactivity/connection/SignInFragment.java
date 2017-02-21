@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -37,8 +37,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.R;
+import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.controllers.secondactivity.SecondActivity;
 import roomies.com.roomies.models.users.ConnectedUserInfo;
 
@@ -48,7 +48,7 @@ public class SignInFragment extends Fragment {
     EditText email;
     EditText password;
     TextView error_message;
-    private Button m_logInFb;
+    private ImageButton m_logInFb;
     private CallbackManager callbackManager;
     private Fragment curFragment;
 
@@ -72,7 +72,7 @@ public class SignInFragment extends Fragment {
 
         error_message = (TextView) v.findViewById(R.id.error_message);
 
-        m_logInFb = (Button) v.findViewById(R.id.sign_in_facebook);
+        m_logInFb = (ImageButton) v.findViewById(R.id.sign_in_facebook);
         curFragment = this;
         return (v);
     }
@@ -262,7 +262,6 @@ public class SignInFragment extends Fragment {
                     {
                         try {
                             String token = response.getString("token");
-
                             JSONObject user = response.getJSONObject("user");
                             String firstName = user.getJSONObject("profile").getString("firstName");
                             String lastName = user.getJSONObject("profile").getString("lastName");
@@ -292,7 +291,7 @@ public class SignInFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null && networkResponse.statusCode == 401) {
-                    //error_message.setVisibility(View.VISIBLE);
+                    error_message.setVisibility(View.VISIBLE);
                 }
             }
         })

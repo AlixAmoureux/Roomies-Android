@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/top_bar"
-            android:layout_above="@+id/navigation"
             android:fillViewport="true"
             >
             <FrameLayout
@@ -36,18 +35,6 @@
 
                 />
         </ScrollView>
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@id/navigation"
-            android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
-            app:menu="@menu/bottom_menu"
-            app:itemTextColor="@android:color/white"
-            app:itemBackground="@color/colorPrimary"
-            app:itemIconTint="@android:color/white"
-            />
-
 
     </RelativeLayout>
 

@@ -2,9 +2,7 @@ package roomies.com.roomies.controllers.mainactivity.managecoloc.createcoloc;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -35,8 +33,9 @@ import java.util.List;
 import java.util.Map;
 
 import roomies.com.roomies.R;
-import roomies.com.roomies.controllers.secondactivity.SecondActivity;
+import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.controllers.MySearchView;
+import roomies.com.roomies.controllers.secondactivity.SecondActivity;
 import roomies.com.roomies.models.users.MembersInfo;
 
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
@@ -52,7 +51,6 @@ public class AddMembersFragment extends Fragment {
     private SearchView searchView;
     private String token;
     private MembersFilteringAdapter adapter;
-    private SharedPreferences prefs;
     private Button finish;
 
     @Override
@@ -84,8 +82,7 @@ public class AddMembersFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        token = prefs.getString("token", "");
+        token = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).token;
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override

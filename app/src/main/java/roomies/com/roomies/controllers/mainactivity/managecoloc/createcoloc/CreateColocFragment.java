@@ -2,14 +2,12 @@ package roomies.com.roomies.controllers.mainactivity.managecoloc.createcoloc;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.controllers.ManageObjects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,8 +65,7 @@ public class CreateColocFragment extends Fragment
         coloc_description = (EditText) v.findViewById(R.id.coloc_description);
         coloc_image = (ImageButton) v.findViewById(R.id.create_coloc_image);
         coloc_button = (Button) v.findViewById(R.id.create_coloc_button);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        token = prefs.getString("token", "");
+        token = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).token;
         return (v);
     }
 
@@ -86,8 +84,6 @@ public class CreateColocFragment extends Fragment
         coloc_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
-                //startActivity(intent);
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
@@ -164,23 +160,6 @@ public class CreateColocFragment extends Fragment
                 coloc_description.requestFocus();
         }
         else {
-                /*final Map<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + token);
-                JSONObject body = new JSONObject();
-                try {
-                    body.put("title", coloc_name_val);
-                    body.put("description", coloc_desc_val);
-                    body.put("picturePath", imagePath);
-                }
-                catch(JSONException e) {
-                    Log.e("Volley", e.getMessage());
-                }
-                RequestPost requestPost = new RequestPost("/api/roomies-group", getActivity(), headers, body);
-                requestPost.postDatas();
-                JSONObject response = requestPost.getResponse();
-                this.getDatas(response);*/
-
                 createColoc(coloc_name_val, coloc_desc_val);
                 Fragment newFragment = new AddMembersFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -189,20 +168,6 @@ public class CreateColocFragment extends Fragment
                 transaction.commit();
         }
     }
-
-    /*private void getDatas(JSONObject response)
-    {
-      try {
-            String coloc_id = response.getString("id");
-            final SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-            prefs.putString("coloc_id", coloc_id);
-            prefs.apply();
-        }
-        catch (JSONException e)
-        {
-            Log.e("ERROR VOLLEY", e.getMessage());
-        }
-    }*/
 
     private void createColoc(final String coloc_name_val, final String coloc_desc_val)
     {
@@ -226,17 +191,6 @@ public class CreateColocFragment extends Fragment
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        try {
-                            Log.e("createColoc", "ça marche !");
-                            String coloc_id = response.getString("id");
-                            final SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                            prefs.putString("coloc_id", coloc_id);
-                            prefs.apply();
-                        }
-                        catch (JSONException e)
-                        {
-                            Log.e("ERROR VOLLEY", e.getMessage());
-                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

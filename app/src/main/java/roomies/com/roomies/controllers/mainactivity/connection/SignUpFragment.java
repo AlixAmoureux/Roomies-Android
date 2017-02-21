@@ -1,14 +1,12 @@
 package roomies.com.roomies.controllers.mainactivity.connection;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -40,7 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.controllers.mainactivity.managecoloc.JointOrCreateColocFragment;
+import roomies.com.roomies.models.users.ConnectedUserInfo;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -272,9 +272,11 @@ public class SignUpFragment extends Fragment {
                     {
                         try {
                             String token = response.getString("token");
-                            final SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
-                            prefs.putString("token", token);
-                            prefs.apply();
+
+
+                            ConnectedUserInfo user = new ConnectedUserInfo(response);
+                            user.token = token;
+                            ManageObjects.writeUserInfosInPrefs(user, "userInfos", getActivity());
                         }
                         catch (JSONException e)
                         {

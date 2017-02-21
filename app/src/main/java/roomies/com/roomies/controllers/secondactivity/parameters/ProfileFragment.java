@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment {
         m_lastName = (EditText) v.findViewById(R.id.update_lastname);
         m_firstName = (EditText) v.findViewById(R.id.update_fistname);
         m_email = (EditText) v.findViewById(R.id.update_email);
-        m_city = (EditText ) v.findViewById(R.id.update_city);
+        m_city = (EditText) v.findViewById(R.id.update_city);
         m_state = (EditText) v.findViewById(R.id.update_state);
         m_message = (TextView) v.findViewById(R.id.update_profile_message);
 
@@ -93,7 +93,6 @@ public class ProfileFragment extends Fragment {
         Log.e("Profile", "onActivityCreated");
 
         setDatasAndGetEvents();
-
 
 
         m_photo.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +130,7 @@ public class ProfileFragment extends Fragment {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContext().getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
@@ -155,8 +154,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private void updateObject(ConnectedUserInfo oldUser)
-    {
+    private void updateObject(ConnectedUserInfo oldUser) {
         ConnectedUserInfo newUser = new ConnectedUserInfo();
         newUser.token = oldUser.token;
         newUser.id = oldUser.id;
@@ -170,37 +168,26 @@ public class ProfileFragment extends Fragment {
         updateProfile(newUser.id, newUser.token);
     }
 
-    private int checkFields()
-    {
-        m_valLastName =  this.m_lastName.getText().toString();
+    private int checkFields() {
+        m_valLastName = this.m_lastName.getText().toString();
         m_valFirstName = this.m_firstName.getText().toString();
         m_valEmail = this.m_email.getText().toString();
         m_valCity = this.m_city.getText().toString();
         m_valState = this.m_state.getText().toString();
 
-        if (TextUtils.isEmpty(m_valFirstName))
-        {
+        if (TextUtils.isEmpty(m_valFirstName)) {
             m_firstName.setError("Le nom n'est pas indiqué");
-        }
-        else if (TextUtils.isEmpty(m_valLastName)) {
+        } else if (TextUtils.isEmpty(m_valLastName)) {
             m_lastName.setError("Le prénom n'est pas indiqué");
-        }
-        else if (TextUtils.isEmpty(m_valEmail)) {
+        } else if (TextUtils.isEmpty(m_valEmail)) {
             m_email.setError("L'adresse mail n'est pas indiquée");
-        }
-        else if (!isEmailValid(m_valEmail))
-        {
+        } else if (!isEmailValid(m_valEmail)) {
             m_email.setError("Adresse mail incorrecte");
-        }
-        else if (TextUtils.isEmpty(m_valCity))
-        {
+        } else if (TextUtils.isEmpty(m_valCity)) {
             m_city.setError("La ville n'est pas indiquée");
-        }
-        else if (TextUtils.isEmpty(m_valState))
-        {
+        } else if (TextUtils.isEmpty(m_valState)) {
             m_state.setError("Le pays n'est pas indiqué");
-        }
-        else
+        } else
             return (1);
         return (-1);
     }
@@ -225,32 +212,28 @@ public class ProfileFragment extends Fragment {
         getActivity().setTitle("Sign-Up");
     }
 
-    private void updateProfile(String userId, final String userToken)
-    {
+    private void updateProfile(String userId, final String userToken) {
         // HTTP POST
-        String url = getString(R.string.url_base) +  "/api/users/" + userId;
+        String url = getString(R.string.url_base) + "/api/users/" + userId;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject local =  new JSONObject();
+            JSONObject local = new JSONObject();
             local.put("email", m_valEmail);
-            JSONObject profile =  new JSONObject();
+            JSONObject profile = new JSONObject();
             profile.put("firstName", m_valFirstName);
             profile.put("lastName", m_valLastName);
             profile.put("city", m_valCity);
             profile.put("state", m_valState);
             jsonObject.put("profile", profile.toString());
             jsonObject.put("local", local.toString());
-        }
-        catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONObject response) {
                         m_message.setText(getString(R.string.update_profile_success));
                         m_message.setTextColor(getResources().getColor(R.color.messageSuccess));
                     }
@@ -261,8 +244,7 @@ public class ProfileFragment extends Fragment {
                 m_message.setText(getString(R.string.update_profile_error));
                 m_message.setTextColor(getResources().getColor(R.color.messageError));
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 final Map<String, String> headers = new HashMap<>();

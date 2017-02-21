@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.controllers.ManageObjects;
-import roomies.com.roomies.controllers.secondactivity.HomeFragment;
 import roomies.com.roomies.models.users.ConnectedUserInfo;
 
 public class ParametersFragment extends Fragment

@@ -102,18 +102,19 @@
             />
 
 
-        <Button
+        <ImageButton
             android:id="@+id/sign_in_facebook"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dip"
             android:adjustViewBounds="true"
-            android:background="@drawable/facebook_2"
+            android:src="@drawable/facebook"
             android:scaleType="fitXY"
             android:contentDescription="@string/button_for_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             >
-        </Button>
+        </ImageButton>
 
         <Button
             android:id="@+id/sign_up_button"
