@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="MV Boli"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="20dip"
+        android:layout_marginBottom="20dip"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+
+        <ListView
+            android:id="@+id/listview_edit_listitems"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="90"
+            />
+
+        <Button
+            android:id="@+id/edit_list_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Update"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:layout_weight="10"
+            android:layout_marginBottom="20dip"
+            />
+        <Button
+            android:id="@+id/remove_list_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Remove"
+            android:background="@drawable/forme_arrondie_bleue"
+            android:layout_weight="10"
+            android:layout_marginBottom="20dip"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_list_message"
+            android:layout_margin="20dip"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+</LinearLayout>

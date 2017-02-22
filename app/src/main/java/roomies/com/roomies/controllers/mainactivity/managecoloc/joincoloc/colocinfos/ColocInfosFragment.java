@@ -1,9 +1,7 @@
 package roomies.com.roomies.controllers.mainactivity.managecoloc.joincoloc.colocinfos;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,7 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,8 +78,7 @@ public class ColocInfosFragment extends Fragment {
         super.onResume();
 
         mMessage.setVisibility(View.INVISIBLE);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mColocId = prefs.getString("coloc_id", "");
+        mColocId = ManageObjects.readColocInfosInPrefs("colocInfos", getActivity()).id;
         mToken = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).token;
         mUserId = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).id;
         mRequestQueue = Volley.newRequestQueue(getActivity());
@@ -122,7 +118,7 @@ public class ColocInfosFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        mMessage.setText("A request has been sent to join this Roomie !");
+                        mMessage.setText("A request has been sent to join this group !");
                         mMessage.setTextColor(getResources().getColor(R.color.messageSuccess));
                         Log.e("createRequest", "ça a marché !");
                     }
@@ -130,7 +126,7 @@ public class ColocInfosFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("AddMember", error.getMessage());
-                mMessage.setText("Error : you can't join this Roomie!");
+                mMessage.setText("Error : you can't join this group!");
                 mMessage.setTextColor(getResources().getColor(R.color.messageError));
             }
         })

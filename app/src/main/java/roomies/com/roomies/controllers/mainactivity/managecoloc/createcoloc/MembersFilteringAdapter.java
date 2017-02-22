@@ -32,34 +32,36 @@ import java.util.List;
 import java.util.Map;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.models.users.MembersInfo;
 
 
-class MembersFilteringAdapter extends BaseAdapter implements Filterable{
+class MembersFilteringAdapter extends BaseAdapter implements Filterable {
 
-    private List<MembersInfo> members;
-    private List<MembersInfo> membersDisplayed;
-    private Filter membersFilter;
-    private String colocId;
-    private String token;
-    private String userId;
-    private Context context;
-    private Activity m_activity;
+    private List<MembersInfo> mMembers;
+    private List<MembersInfo> mMembersDisplayed;
+    private Filter mMembersFilter;
+    private String mColocId;
+    private String mToken;
+    private Context mContext;
+    private Activity mActivity;
 
-    MembersFilteringAdapter() {
-        this.membersFilter = new MembersFilter();
-        this.membersDisplayed = new ArrayList<>();
-        this.members = new ArrayList<>();
+    MembersFilteringAdapter(Activity actitiy, Context context) {
+        this.mMembersFilter = new MembersFilter();
+        this.mMembersDisplayed = new ArrayList<>();
+        this.mMembers = new ArrayList<>();
+        mActivity = actitiy;
+        mContext = context;
     }
 
     @Override
     public int getCount() {
-        return membersDisplayed.size();
+        return mMembersDisplayed.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return membersDisplayed.get(position);
+        return mMembersDisplayed.get(position);
     }
 
     @Override
@@ -70,20 +72,18 @@ class MembersFilteringAdapter extends BaseAdapter implements Filterable{
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final MembersFilteringAdapter.ViewHolder holder;
-        if (convertView == null)
-        {
+        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(R.layout.add_members_info, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
         // Vue recyclée
-        else
-        {
+        else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final MembersInfo member = membersDisplayed.get(position);
+        final MembersInfo member = mMembersDisplayed.get(position);
         holder.memberLastName.setText(member.lastName);
         holder.memberFirstName.setText(member.firstName);
         holder.memberCity.setText(member.city);
@@ -93,109 +93,78 @@ class MembersFilteringAdapter extends BaseAdapter implements Filterable{
             public void onClick(View view) {
                 Log.e("MemberAdapter", "Envoi d'une invitation");
                 Log.e("MemberAdapter", "Id = " + member.id);
-                final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                colocId = prefs.getString("coloc_id", "");
-                token = prefs.getString("token", "");
-                userId = member.id;
+                mColocId = ManageObjects.readColocInfosInPrefs("colocInfos", mActivity).id;
+                mToken = ManageObjects.readUserInfosInPrefs("userInfos", mActivity).token;
                 holder.memberInvite.setVisibility(View.INVISIBLE);
                 holder.memberInvite.setClickable(false);
-                createRequest();
-
-                // Envoi d'une requête pour ajouter le membre
+                createRequest(member.id);
             }
         });
-
-        /*Picasso.with(parent.getContext())
-                .load(member.getPicturePath())
-                .error(R.drawable.unknown_user)
-                .into(holder.colocPhoto);*/
-
         return convertView;
     }
 
-    private void createRequest()
-    {
-        String url = context.getString(R.string.url_base) +  "/api/roomies-group/" + colocId + "/requests";
-        RequestQueue requestQueue = Volley.newRequestQueue(m_activity);
+    private void createRequest(String userId) {
+        String url = mContext.getString(R.string.url_base) + "/api/roomies-group/" + mColocId + "/requests";
+        RequestQueue requestQueue = Volley.newRequestQueue(mActivity);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("userID", userId);
-        }
-        catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e("Volley", e.getMessage());
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONObject response) {
                         Log.e("createRequest", "ça a marché !");
-                       /* try {
-
-                        }
-                        catch (JSONException e)
-                        {
-                            Log.e("ERROR VOLLEY", e.getMessage());
-                        }*/
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("AddMember", error.getMessage());
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 final Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", "Bearer " + token);
+                headers.put("Authorization", "Bearer " + mToken);
                 return headers;
             }
         };
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void setData(List<MembersInfo> tmpMembers, Context context, Activity activity)
-    {
-        if (this.members.size() != 0)
-            this.members.clear();
-        if (this.membersDisplayed.size() != 0)
-            this.membersDisplayed.clear();
-        this.members = new ArrayList<>(tmpMembers);
-        this.membersDisplayed = new ArrayList<>(tmpMembers);
-        this.context = context;
-        this.m_activity = activity;
+    public void setData(List<MembersInfo> tmpMembers, Context context, Activity activity) {
+        if (this.mMembers.size() != 0)
+            this.mMembers.clear();
+        if (this.mMembersDisplayed.size() != 0)
+            this.mMembersDisplayed.clear();
+        this.mMembers = new ArrayList<>(tmpMembers);
+        this.mMembersDisplayed = new ArrayList<>(tmpMembers);
+        this.mContext = context;
+        this.mActivity = activity;
         notifyDataSetChanged();
     }
 
     @Override
     public Filter getFilter() {
-        return membersFilter;
+        return mMembersFilter;
     }
 
-    public class MembersFilter extends Filter
-    {
+    public class MembersFilter extends Filter {
         @Override
-        protected FilterResults performFiltering(CharSequence constraint)
-        {
+        protected FilterResults performFiltering(CharSequence constraint) {
             List<MembersInfo> tmpList = new ArrayList<>();
             if (constraint.length() == 0)
-                tmpList = new ArrayList<>(members);
+                tmpList = new ArrayList<>(mMembers);
             else {
-                for (MembersInfo tmpMember : members)
-                {
-                    if (tmpMember.firstName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
-                    {
+                for (MembersInfo tmpMember : mMembers) {
+                    if (tmpMember.firstName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase())) {
                         tmpList.add(tmpMember);
-                    }
-                    else if (tmpMember.lastName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase()))
-                    {
+                    } else if (tmpMember.lastName.trim().toLowerCase().contains(constraint.toString().trim().toLowerCase())) {
                         tmpList.add(tmpMember);
-                    }
-                    else
-                    {
+                    } else {
 
                     }
                 }
@@ -207,33 +176,30 @@ class MembersFilteringAdapter extends BaseAdapter implements Filterable{
         }
 
         @Override
-        protected void publishResults(CharSequence constraint, FilterResults filterResults)
-        {
-            membersDisplayed.clear();
-            membersDisplayed = (List<MembersInfo>) filterResults.values;
+        protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+            mMembersDisplayed.clear();
+            mMembersDisplayed = (List<MembersInfo>) filterResults.values;
             notifyDataSetChanged();
         }
     }
 
-    private class ViewHolder
-    {
+    private class ViewHolder {
         TextView memberLastName;
         TextView memberFirstName;
         TextView memberCity;
         ImageView memberPhoto;
         Button memberInvite;
 
-        ViewHolder(View v)
-        {
-            memberLastName = (TextView)v.findViewById(R.id.nom_membre);
-            memberFirstName = (TextView)v.findViewById(R.id.prenom_membre);
-            memberCity = (TextView)v.findViewById(R.id.ville_membre);
+        ViewHolder(View v) {
+            memberLastName = (TextView) v.findViewById(R.id.nom_membre);
+            memberFirstName = (TextView) v.findViewById(R.id.prenom_membre);
+            memberCity = (TextView) v.findViewById(R.id.ville_membre);
             memberPhoto = (ImageView) v.findViewById(R.id.photo_membre);
             memberInvite = (Button) v.findViewById(R.id.add_members_button);
         }
     }
-    public List<MembersInfo> getMembers()
-    {
-        return (this.membersDisplayed);
+
+    public List<MembersInfo> getmMembers() {
+        return (this.mMembersDisplayed);
     }
 }

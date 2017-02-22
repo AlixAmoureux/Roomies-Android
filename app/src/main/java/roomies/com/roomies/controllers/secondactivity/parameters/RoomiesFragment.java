@@ -10,6 +10,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,6 +40,7 @@ import java.util.Map;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.controllers.ManageObjects;
+import roomies.com.roomies.controllers.mainactivity.managecoloc.JointOrCreateColocFragment;
 import roomies.com.roomies.models.ColocsInfos;
 
 import static android.app.Activity.RESULT_OK;
@@ -106,17 +109,15 @@ public class RoomiesFragment extends Fragment {
         mLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //leaveRoomies(colocInfos.id);
             }
         });
 
         mPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
-                //startActivity(intent);
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
     }
@@ -134,8 +135,48 @@ public class RoomiesFragment extends Fragment {
         return (-1);
     }
 
-    private void updateObject(ColocsInfos oldColocInfos)
-    {
+    private void leaveRoomies(final String roomieId) {
+        // HTTP DELETE
+        String url = getString(R.string.url_base) + "/api/roomies-group/" + roomieId + "/leave";
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        JSONObject object = new JSONObject();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        mMessage.setText("You have left the roomie");
+                        mMessage.setTextColor(getResources().getColor(R.color.messageSuccess));
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
+                            Log.e("RoomiesFragment", e.getMessage());
+                        }
+                        Fragment newFragment = new JointOrCreateColocFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.container, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Update Profile", error.getMessage());
+                mMessage.setText(getString(R.string.update_roomie_error));
+                mMessage.setTextColor(getResources().getColor(R.color.messageError));
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                final Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + mToken);
+                return headers;
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateObject(ColocsInfos oldColocInfos) {
         ColocsInfos newColocInfos = new ColocsInfos();
         newColocInfos.createdAt = oldColocInfos.createdAt;
         newColocInfos.description = mDescriptionVal;
@@ -182,28 +223,30 @@ public class RoomiesFragment extends Fragment {
         return image;
     }
 
-    private void updateRoomie(String roomieId)
-    {
+    private void updateRoomie(String roomieId) {
         // HTTP POST
-        String url = getString(R.string.url_base) +  "/api/roomies-group/" + roomieId;
+        String url = getString(R.string.url_base) + "/api/roomies-group/" + roomieId;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        JSONObject object =  new JSONObject();
+        JSONObject object = new JSONObject();
         try {
             object.put("title", mNameVal);
             object.put("description", mDescriptionVal);
             object.put("picturePath", mPhotoPath);
-        }
-        catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, object,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        mMessage.setText(getString(R.string.update_roomie_success));
-                        mMessage.setTextColor(getResources().getColor(R.color.messageSuccess));
+                    public void onResponse(JSONObject response) {
+                        //mMessage.setText(getString(R.string.update_roomie_success));
+                        //mMessage.setTextColor(getResources().getColor(R.color.messageSuccess));
+                        Toast.makeText(getContext(), "The group has been updated", Toast.LENGTH_LONG).show();
+                        Fragment newFragment = new ParametersFragment();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.container, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -212,8 +255,7 @@ public class RoomiesFragment extends Fragment {
                 mMessage.setText(getString(R.string.update_roomie_error));
                 mMessage.setTextColor(getResources().getColor(R.color.messageError));
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 final Map<String, String> headers = new HashMap<>();

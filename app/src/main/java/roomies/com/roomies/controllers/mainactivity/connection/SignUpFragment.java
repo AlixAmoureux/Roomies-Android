@@ -1,13 +1,6 @@
 package roomies.com.roomies.controllers.mainactivity.connection;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -32,8 +24,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,16 +32,11 @@ import roomies.com.roomies.controllers.ManageObjects;
 import roomies.com.roomies.controllers.mainactivity.managecoloc.JointOrCreateColocFragment;
 import roomies.com.roomies.models.users.ConnectedUserInfo;
 
-import static android.app.Activity.RESULT_OK;
-
 
 public class SignUpFragment extends Fragment {
 
     private Button sign_up_finish_button;
-    private ImageButton signup_image;
-    private static int RESULT_LOAD_IMAGE = 1;
 
-    private String imagePath;
     private EditText lastName;
     private EditText firstName;
     private EditText email;
@@ -77,16 +62,14 @@ public class SignUpFragment extends Fragment {
 
         sign_up_finish_button = (Button) v.findViewById(R.id.sign_up_finish_button);
 
-        signup_image = (ImageButton) v.findViewById(R.id.signup_photo);
         lastName = (EditText) v.findViewById(R.id.signup_lastname);
         firstName = (EditText) v.findViewById(R.id.signup_fistname);
         email = (EditText) v.findViewById(R.id.signup_email);
         pass = (EditText) v.findViewById(R.id.signup_password);
         passConfirmed = (EditText) v.findViewById(R.id.signup_password_confirm);
-        city = (EditText ) v.findViewById(R.id.signup_city);
+        city = (EditText) v.findViewById(R.id.signup_city);
         state = (EditText) v.findViewById(R.id.signup_state);
 
-        imagePath = null;
         return (v);
     }
 
@@ -97,16 +80,7 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (checkFields() == true) {
-
-                    valFirstName = "alix";
-                    valLastName = "Amoureux";
-                    valEmail = "alix.amoureux@epitech.eu";
-                    valPass = "123456";
-                    valPassConfirmed = "123456";
-                    valCity = "Lille";
-                    valState = "France";
-
+                if (checkFields()) {
                     getDatas();
                     Fragment newFragment = new JointOrCreateColocFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -117,48 +91,11 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        signup_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
-                //startActivity(intent);
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imagePath = cursor.getString(columnIndex);
-            cursor.close();
-
-            Bitmap bmp = null;
-            try {
-                bmp = getBitmapFromUri(selectedImage);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            signup_image.setImageBitmap(bmp);
-        }
     }
 
 
-    private boolean checkFields()
-    {
-        valLastName =  this.lastName.getText().toString();
+    private boolean checkFields() {
+        valLastName = this.lastName.getText().toString();
         valFirstName = this.firstName.getText().toString();
         valEmail = this.email.getText().toString();
         valPass = this.pass.getText().toString();
@@ -166,48 +103,29 @@ public class SignUpFragment extends Fragment {
         valCity = this.city.getText().toString();
         valState = this.state.getText().toString();
 
-        if (TextUtils.isEmpty(valFirstName))
-        {
-        firstName.setError("Le nom n'est pas indiqué");
-        }
-        else if (TextUtils.isEmpty(valLastName)) {
-            lastName.setError("Le prénom n'est pas indiqué");
-        }
-        else if (TextUtils.isEmpty(valEmail)) {
-            email.setError("L'adresse mail n'est pas indiquée");
-        }
-        else if (!isEmailValid(valEmail))
-        {
-            email.setError("Adresse mail incorrecte");
-        }
-        else if (TextUtils.isEmpty(valPass))
-        {
-            pass.setError("Le mot de passe n'est pas indiqué");
-        }
-        else if (isPasswordValid(valPass) == false)
-        {
-            pass.setError("Le mot de passe doit contenir au moins 6 caractères");
-        }
-        else if (TextUtils.isEmpty(valPassConfirmed)) {
-            passConfirmed.setError("Le mot de passe n'est pas indiqué");
-        }
-        else if (isPasswordValid(valPassConfirmed) == false)
-        {
-            passConfirmed.setError("Le mot de passe doit contenir au moins 6 caractères");
-        }
-        else if (valPass.compareTo(valPassConfirmed) != 0)
-        {
-            passConfirmed.setError("Le mot de passe n'est pas identique");
-        }
-        else if (TextUtils.isEmpty(valCity))
-        {
-            city.setError("La ville n'est pas indiquée");
-        }
-        else if (TextUtils.isEmpty(valState))
-        {
-            state.setError("Le pays n'est pas indiqué");
-        }
-        else
+        if (TextUtils.isEmpty(valFirstName)) {
+            firstName.setError("The firstname is not set");
+        } else if (TextUtils.isEmpty(valLastName)) {
+            lastName.setError("The lastname is not set");
+        } else if (TextUtils.isEmpty(valEmail)) {
+            email.setError("The email is not set");
+        } else if (!isEmailValid(valEmail)) {
+            email.setError("The email is not correct");
+        } else if (TextUtils.isEmpty(valPass)) {
+            pass.setError("The password is not set");
+        } else if (isPasswordValid(valPass) == false) {
+            pass.setError("The password should have at least 6 characters");
+        } else if (TextUtils.isEmpty(valPassConfirmed)) {
+            passConfirmed.setError("The password is not set");
+        } else if (isPasswordValid(valPassConfirmed) == false) {
+            passConfirmed.setError("The password should have at least 6 characters");
+        } else if (valPass.compareTo(valPassConfirmed) != 0) {
+            passConfirmed.setError("The password is not the same");
+        } else if (TextUtils.isEmpty(valCity)) {
+            city.setError("The city is not set");
+        } else if (TextUtils.isEmpty(valState)) {
+            state.setError("The country is not set");
+        } else
             return (true);
         return (false);
     }
@@ -222,16 +140,8 @@ public class SignUpFragment extends Fragment {
         return password.length() >= 6;
     }
 
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContext().getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
 
-    private void getDatas()
-    {
+    private void getDatas() {
         // HTTP POST
 
         String url = null;
@@ -239,20 +149,18 @@ public class SignUpFragment extends Fragment {
         try {
             url = getString(R.string.url_base) + "/api/users";
             requestQueue = Volley.newRequestQueue(getActivity());
-        }
-        catch (Exception e)
-        {
-            Log.e("Error",  e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
         }
         JSONObject jsonObject = new JSONObject();
         try {
-            JSONObject local =  new JSONObject();
+            JSONObject local = new JSONObject();
             local.put("email", valEmail);
             local.put("password", valPass);
             local.put("password_confirmation", valPassConfirmed);
 
 
-            JSONObject profile =  new JSONObject();
+            JSONObject profile = new JSONObject();
             profile.put("firstName", valFirstName);
             profile.put("lastName", valLastName);
             profile.put("city", valCity);
@@ -260,16 +168,13 @@ public class SignUpFragment extends Fragment {
 
             jsonObject.put("profile", profile.toString());
             jsonObject.put("local", local.toString());
-        }
-        catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONObject response) {
                         try {
                             String token = response.getString("token");
 
@@ -277,9 +182,7 @@ public class SignUpFragment extends Fragment {
                             ConnectedUserInfo user = new ConnectedUserInfo(response);
                             user.token = token;
                             ManageObjects.writeUserInfosInPrefs(user, "userInfos", getActivity());
-                        }
-                        catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
 
                         }
                     }
@@ -288,11 +191,10 @@ public class SignUpFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null && networkResponse.statusCode == 500) {
-                    email.setError("Veuillez choisir une autre adresse email");
+                    email.setError("Choose another email");
                 }
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 final Map<String, String> headers = new HashMap<>();

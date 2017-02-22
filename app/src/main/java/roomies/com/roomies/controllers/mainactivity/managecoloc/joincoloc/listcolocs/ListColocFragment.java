@@ -47,7 +47,6 @@ import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
  */
 public class ListColocFragment extends Fragment implements AdapterView.OnItemClickListener
 {
-    private SharedPreferences mPrefs;
     private List<ColocsInfos> mColocsInfos;
     private String mToken;
     private ListView mListView;
@@ -72,8 +71,8 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
     {
         Log.e("ListColoc", "onCreateView !");
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_list_coloc, container, false);
-        mListView = (ListView) v.findViewById(R.id.listview_join_coloc);
+        View v = inflater.inflate(R.layout.fragment_listview, container, false);
+        mListView = (ListView) v.findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);
 
         return v;
@@ -91,7 +90,6 @@ public class ListColocFragment extends Fragment implements AdapterView.OnItemCli
 
         this.mColocsInfos.clear();
         Log.e("ListColoc", "onResume !");
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mToken = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).token;
         getDatasFromRequest();
         getActivity().setTitle("Join a Roomies group");

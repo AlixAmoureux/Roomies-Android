@@ -52,13 +52,15 @@ public class AddMembersFragment extends Fragment {
     private String token;
     private MembersFilteringAdapter adapter;
     private Button finish;
+    private String userId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listMembers = new ArrayList<>();
-        adapter = new MembersFilteringAdapter();
+        adapter = new MembersFilteringAdapter(getActivity(), getContext());
         setHasOptionsMenu(true);
+        userId = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).id;
     }
 
     @Override
@@ -96,7 +98,7 @@ public class AddMembersFragment extends Fragment {
 
     private void getMembersFromRequest() {
 
-        // HTTP POST
+        // HTTP GET
         String url = getString(R.string.url_base) + "/api/users";
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         try {
@@ -108,10 +110,13 @@ public class AddMembersFragment extends Fragment {
                         for (int i = 0; i < users.length(); i++) {
                             JSONObject json = users.getJSONObject(i);
                             MembersInfo tmpColocs = new MembersInfo(json);
-                            listMembers.add(tmpColocs);
+                            if (tmpColocs.id.compareTo(userId) != 0)
+                                listMembers.add(tmpColocs);
                         }
-                        adapter.setData(listMembers, getContext(), getActivity());
-                        listView.setAdapter(adapter);
+                        if (listMembers.size() > 0) {
+                            adapter.setData(listMembers, getContext(), getActivity());
+                            listView.setAdapter(adapter);
+                        }
                     } catch (JSONException e) {
                     }
                 }
@@ -151,7 +156,7 @@ public class AddMembersFragment extends Fragment {
           public boolean onQueryTextChange(String newText) {
               adapter.getFilter().filter(newText);
               listMembers.clear();
-              listMembers = adapter.getMembers();
+              listMembers = adapter.getmMembers();
               return true;
           }
       }

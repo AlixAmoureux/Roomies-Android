@@ -24,13 +24,32 @@ public class MembersInfo {
             JSONObject profile = json.getJSONObject("profile");
             this.firstName = profile.getString("firstName");
             this.lastName = profile.getString("lastName");
-            this.city = profile.getString("city");
-            this.state = profile.getString("state");
-
-
             this.createdAt = json.getString("createdAt");
-            this.email = json.getJSONObject("local").getString("email");
             this.id = json.getString("id");
+
+            try {
+                this.city = profile.getString("city");
+            }
+            catch (JSONException e)
+            {
+                this.city = "";
+            }
+            try
+            {
+                this.state = profile.getString("state");
+            }
+            catch (JSONException e)
+            {
+                this.state = "";
+            }
+            try
+            {
+                this.email = json.getJSONObject("local").getString("email");
+            }
+            catch (JSONException e)
+            {
+                this.email = json.getJSONObject("facebook").getString("email");
+            }
 
         }
         catch (JSONException e)

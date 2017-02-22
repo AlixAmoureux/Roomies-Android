@@ -2,13 +2,7 @@ package roomies.com.roomies.controllers.mainactivity.managecoloc.createcoloc;
 
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -32,38 +25,28 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.controllers.ManageObjects;
-
-import static android.app.Activity.RESULT_OK;
+import roomies.com.roomies.controllers.secondactivity.SecondActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateColocFragment extends Fragment
-{
+public class CreateColocFragment extends Fragment {
     private EditText coloc_name;
     private EditText coloc_description;
-    private ImageButton coloc_image;
     private Button coloc_button;
     private String token;
-    private static int RESULT_LOAD_IMAGE = 1;
-    private String imagePath = null;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_create_coloc, container, false);
         coloc_name = (EditText) v.findViewById(R.id.coloc_name);
         coloc_description = (EditText) v.findViewById(R.id.coloc_description);
-        coloc_image = (ImageButton) v.findViewById(R.id.create_coloc_image);
         coloc_button = (Button) v.findViewById(R.id.create_coloc_button);
         token = ManageObjects.readUserInfosInPrefs("userInfos", getActivity()).token;
         return (v);
@@ -80,51 +63,6 @@ public class CreateColocFragment extends Fragment
                 checkFields(coloc_name_val, coloc_description_val);
             }
         });
-
-        coloc_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bmp = null;
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            try {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imagePath = cursor.getString(columnIndex);
-            cursor.close();
-
-
-
-                bmp = getBitmapFromUri(selectedImage);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            coloc_image.setImageBitmap(bmp);
-        }
-    }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContext().getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
     }
 
     @Override
@@ -133,72 +71,68 @@ public class CreateColocFragment extends Fragment
         getActivity().setTitle("Create a Roomies group");
     }
 
-    private void checkFields(final String coloc_name_val, final String coloc_desc_val)
-    {
+    private void checkFields(final String coloc_name_val, final String coloc_desc_val) {
         boolean cancel = false;
         boolean name_problem = false;
 
         // Check for a valid coloc_name, if the user entered one.
         if (TextUtils.isEmpty(coloc_name_val)) {
-            coloc_name.setError("Le nom de la colocation n'est pas indiquée");
+            coloc_name.setError("The name is not set");
             name_problem = true;
             cancel = true;
         }
 
         // Check for a valid coloc description
         if (TextUtils.isEmpty(coloc_desc_val)) {
-            coloc_description.setError("La description de la colocation n'est pas indiquée");
+            coloc_description.setError("The description is not set");
             cancel = true;
         }
-        if (cancel)
-        {
+        if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             if (name_problem)
                 coloc_name.requestFocus();
             else
                 coloc_description.requestFocus();
-        }
-        else {
-                createColoc(coloc_name_val, coloc_desc_val);
-                Fragment newFragment = new AddMembersFragment();
+        } else {
+            createColoc(coloc_name_val, coloc_desc_val);
+
+            Intent toSecondActivity = new Intent(getActivity(), SecondActivity.class);
+            startActivity(toSecondActivity);
+            getActivity().finish();
+                /*Fragment newFragment = new AddMembersFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, newFragment);
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
         }
     }
 
-    private void createColoc(final String coloc_name_val, final String coloc_desc_val)
-    {
+    private void createColoc(final String coloc_name_val, final String coloc_desc_val) {
         // HTTP POST
         Log.e("createColoc", "début de fonction");
         Log.e("createColoc token", token);
-        String url = getString(R.string.url_base) +  "/api/roomies-group";
+        String url = getString(R.string.url_base) + "/api/roomies-group";
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("title", coloc_name_val);
             jsonObject.put("description", coloc_desc_val);
-            jsonObject.put("picturePath", imagePath);
-        }
-        catch(JSONException e) {
+            jsonObject.put("picturePath", "picture de la mort");
+        } catch (JSONException e) {
             Log.e("Volley", e.getMessage());
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONObject response) {
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Create Colloc", error.getMessage());
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 final Map<String, String> headers = new HashMap<>();

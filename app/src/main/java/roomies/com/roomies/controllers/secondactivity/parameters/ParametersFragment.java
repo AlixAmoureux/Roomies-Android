@@ -12,20 +12,27 @@ import android.widget.LinearLayout;
 
 import roomies.com.roomies.R;
 import roomies.com.roomies.controllers.ManageObjects;
+import roomies.com.roomies.controllers.mainactivity.managecoloc.createcoloc.AddMembersFragment;
 import roomies.com.roomies.models.users.ConnectedUserInfo;
 
 public class ParametersFragment extends Fragment
 {
-    private LinearLayout m_profile;
-    private LinearLayout m_roomies;
+    private LinearLayout mProfile;
+    private LinearLayout mRoomies;
+    private LinearLayout mRequests;
+    private LinearLayout mRoomiesMembers;
+    //private LinearLayout mAddMembers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.fragment_parameters, container, false);
-        m_profile = (LinearLayout)v.findViewById(R.id.update_profile);
-        m_roomies = (LinearLayout)v.findViewById(R.id.update_roomies);
+        mProfile = (LinearLayout)v.findViewById(R.id.update_profile);
+        mRoomies = (LinearLayout)v.findViewById(R.id.update_roomies);
+        mRequests = (LinearLayout)v.findViewById(R.id.requests);
+        mRoomiesMembers = (LinearLayout)v.findViewById(R.id.roomies_members);
+        //mAddMembers = (LinearLayout)v.findViewById(R.id.roomies_add_members);
         return (v);
     }
 
@@ -36,7 +43,7 @@ public class ParametersFragment extends Fragment
 
 
 
-        m_profile.setOnClickListener(new View.OnClickListener() {
+        mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -48,7 +55,7 @@ public class ParametersFragment extends Fragment
             }
         });
 
-        m_roomies.setOnClickListener(new View.OnClickListener() {
+        mRoomies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Fragment newFragment = new RoomiesFragment();
@@ -58,6 +65,36 @@ public class ParametersFragment extends Fragment
                 transaction.commit();
             }
         });
+        mRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment newFragment = new InvitationsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        mRoomiesMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment newFragment = new RoomiesMembersFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+       /*mAddMembers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment newFragment = new AddMembersFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });*/
     }
 
     @Override

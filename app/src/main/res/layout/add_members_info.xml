@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="40"
         android:id="@+id/add_members_button"
-        android:text="Inviter"
+        android:text="Invite"
         android:layout_gravity="center"
         android:textColor="@android:color/black"
         android:background="@drawable/forme_arrondie_bleue"

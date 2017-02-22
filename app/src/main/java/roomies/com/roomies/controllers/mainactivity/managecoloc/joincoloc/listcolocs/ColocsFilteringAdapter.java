@@ -60,10 +60,6 @@ class ColocsFilteringAdapter extends BaseAdapter implements Filterable {
         ColocsInfos colocation = colocationsDisplayed.get(position);
         holder.colocName.setText(colocation.title);
 
-        /*Picasso.with(parent.getContext())
-                .load(colocation.picturePath)
-                .error(R.drawable.unknown_user)
-                .into(holder.colocPhoto);*/
 
         return convertView;
     }

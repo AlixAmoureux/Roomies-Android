@@ -134,40 +134,33 @@ public class SignInFragment extends Fragment {
 
     private void checkFields(final String password_value, final String email_value)
     {
-        boolean cancel = false;
         boolean email_problem = false;
+        boolean password_problem = false;
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password_value)) {
-            password.setError("Le mot de passe n'est pas indiqué");
-            cancel = true;
+            password.setError("The password is not set");
+            password_problem = true;
         }
-        else if (isPasswordValid(password_value) == false)
+        else if (!isPasswordValid(password_value))
         {
-            password.setError("Le mot de passe doit contenir au moins 6 caractères");
-            cancel = true;
+            password.setError("The password should have at least 6 characters");
+            password_problem = true;
         }
         // Check for a valid email address.
         if (TextUtils.isEmpty(email_value)) {
-            email.setError("L'email n'est pas indiqué");
+            email.setError("The email is not set");
             email_problem = true;
-            cancel = true;
         }
         else if (!isEmailValid(email_value))
         {
-            email.setError("Adresse mail incorrecte");
+            email.setError("The email is not correct");
             email_problem = true;
-            cancel = true;
         }
-        if (cancel)
-        {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            if (email_problem == true)
-                email.requestFocus();
-            else
-                 password.requestFocus();
-        }
+        if (email_problem)
+            email.requestFocus();
+        else if (password_problem)
+             password.requestFocus();
         else {
             connect(email_value, password_value);
         }

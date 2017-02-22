@@ -16,7 +16,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="6ac3334cf795cbe61467a5a05d507c5abbdfd8cd">
+        sha1="ff7a12a2d7f74e710b6b526b9384d7d89dd2a5e0">
         <dex dex="C:\Users\xila\Desktop\Roomies\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_6ef3ce631c89ad200c76abc797a902236f6de6df\classes.dex" />
     </item>
     <item
@@ -151,7 +151,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="d41f5c4b0d3e66650de5f3b393bc6e7602c35629">
+        sha1="5ef799f3db587e5d9d79b5912d13e9385af07af6">
         <dex dex="C:\Users\xila\Desktop\Roomies\Roomies-Android\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_c9135232e9d0d721869a6f90b9c3ba0e972330e2\classes.dex" />
     </item>
     <item

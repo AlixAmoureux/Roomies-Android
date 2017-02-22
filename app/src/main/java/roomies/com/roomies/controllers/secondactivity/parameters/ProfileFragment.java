@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -50,7 +51,6 @@ public class ProfileFragment extends Fragment {
 
 
     private Button m_updateButton;
-    private ImageButton m_photo;
     private EditText m_lastName;
     private EditText m_firstName;
     private EditText m_email;
@@ -63,7 +63,6 @@ public class ProfileFragment extends Fragment {
     private String m_valEmail;
     private String m_valCity;
     private String m_valState;
-    private String m_photoPath;
 
 
     @Override
@@ -73,7 +72,6 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
 
         m_updateButton = (Button) v.findViewById(R.id.update_profile_button);
-        m_photo = (ImageButton) v.findViewById(R.id.update_photo);
         m_lastName = (EditText) v.findViewById(R.id.update_lastname);
         m_firstName = (EditText) v.findViewById(R.id.update_fistname);
         m_email = (EditText) v.findViewById(R.id.update_email);
@@ -81,7 +79,6 @@ public class ProfileFragment extends Fragment {
         m_state = (EditText) v.findViewById(R.id.update_state);
         m_message = (TextView) v.findViewById(R.id.update_profile_message);
 
-        m_photoPath = null;
         Log.e("Profile", "onCreateView");
         return (v);
     }
@@ -93,17 +90,6 @@ public class ProfileFragment extends Fragment {
         Log.e("Profile", "onActivityCreated");
 
         setDatasAndGetEvents();
-
-
-        m_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
-                //startActivity(intent);
-                Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
     }
 
     private void setDatasAndGetEvents() {
@@ -122,35 +108,6 @@ public class ProfileFragment extends Fragment {
                     updateObject(user);
             }
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            Cursor cursor = getContext().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            m_photoPath = cursor.getString(columnIndex);
-            cursor.close();
-
-            Bitmap bmp = null;
-            try {
-                bmp = getBitmapFromUri(selectedImage);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            m_photo.setImageBitmap(bmp);
-
-        }
-
     }
 
 
@@ -176,17 +133,17 @@ public class ProfileFragment extends Fragment {
         m_valState = this.m_state.getText().toString();
 
         if (TextUtils.isEmpty(m_valFirstName)) {
-            m_firstName.setError("Le nom n'est pas indiqué");
+            m_firstName.setError("The firstname is not set");
         } else if (TextUtils.isEmpty(m_valLastName)) {
-            m_lastName.setError("Le prénom n'est pas indiqué");
+            m_lastName.setError("The lastname is not set");
         } else if (TextUtils.isEmpty(m_valEmail)) {
-            m_email.setError("L'adresse mail n'est pas indiquée");
+            m_email.setError("The email is not set");
         } else if (!isEmailValid(m_valEmail)) {
-            m_email.setError("Adresse mail incorrecte");
+            m_email.setError("The email is not correct");
         } else if (TextUtils.isEmpty(m_valCity)) {
-            m_city.setError("La ville n'est pas indiquée");
+            m_city.setError("The city is not set");
         } else if (TextUtils.isEmpty(m_valState)) {
-            m_state.setError("Le pays n'est pas indiqué");
+            m_state.setError("The state is not set");
         } else
             return (1);
         return (-1);
@@ -195,14 +152,6 @@ public class ProfileFragment extends Fragment {
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
-    }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor = getContext().getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
     }
 
     @Override

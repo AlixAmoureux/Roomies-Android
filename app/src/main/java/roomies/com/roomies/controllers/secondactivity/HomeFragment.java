@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import roomies.com.roomies.R;
+import roomies.com.roomies.controllers.secondactivity.lists.display.ManageListsFragment;
 import roomies.com.roomies.controllers.secondactivity.parameters.ParametersFragment;
-import roomies.com.roomies.controllers.secondactivity.parameters.RoomiesFragment;
 
 
 /**
@@ -21,6 +21,7 @@ import roomies.com.roomies.controllers.secondactivity.parameters.RoomiesFragment
 public class HomeFragment extends Fragment {
 
     LinearLayout mParameters;
+    LinearLayout mLists;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         mParameters = (LinearLayout) v.findViewById(R.id.parameters);
+        mLists = (LinearLayout) v.findViewById(R.id.lists);
         return (v);
     }
 
@@ -37,6 +39,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Fragment newFragment = new ParametersFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        mLists.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment newFragment = new ManageListsFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, newFragment);
                 transaction.addToBackStack(null);

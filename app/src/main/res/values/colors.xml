@@ -3,6 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="boutonAdd">#5078BC</color>
     <color name="messageSuccess">#1C6610</color>
-    <color name="messageError">#CC0000</color>
+    <color name="messageError">#7D0008</color>
+    <color name="boutonError">#B60E19</color>
+    <color name="messageWarning">#FF8000</color>
 </resources>

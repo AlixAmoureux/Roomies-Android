@@ -12,11 +12,11 @@ import java.util.List;
 import roomies.com.roomies.R;
 import roomies.com.roomies.models.users.MembersInfo;
 
-class MembersAdapter extends BaseAdapter {
+public class MembersAdapter extends BaseAdapter {
 
     private List<MembersInfo> members;
 
-    MembersAdapter() {
+    public MembersAdapter() {
         this.members = new ArrayList<>();
     }
 
@@ -55,10 +55,6 @@ class MembersAdapter extends BaseAdapter {
         holder.memberLastName.setText(member.lastName);
         holder.memberFirstName.setText(member.firstName);
 
-        /*Picasso.with(parent.getContext())
-                .load(member.getPicturePath())
-                .error(R.drawable.unknown_user)
-                .into(holder.colocPhoto);*/
 
         return convertView;
     }
@@ -72,13 +68,11 @@ class MembersAdapter extends BaseAdapter {
     {
         TextView memberLastName;
         TextView memberFirstName;
-        //ImageView memberPhoto;
 
         ViewHolder(View v)
         {
             memberLastName = (TextView)v.findViewById(R.id.member_last_name);
             memberFirstName = (TextView)v.findViewById(R.id.member_first_name);
-            //memberPhoto = (ImageView) v.findViewById(R.id.member_photo);
         }
     }
 }

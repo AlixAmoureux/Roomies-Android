@@ -17,6 +17,33 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/invitation_infos"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="30dip"
+                android:layout_marginStart="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginEnd="30dip"
+                />
+            <Button
+                android:id="@+id/accept_invitation"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:text="Accept invitation"
+                android:textColor="@android:color/black"
+                android:background="@drawable/forme_arrondie_bleue"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="MV Boli"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textAllCaps="false"
+                />
 
             <Button
                 android:id="@+id/join_colocation"
@@ -32,7 +59,6 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textAllCaps="false"
-
                 />
 
 

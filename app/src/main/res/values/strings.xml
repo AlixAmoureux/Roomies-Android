@@ -10,8 +10,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="first_name_compulsory">First name *</string>
     <string name="last_name_compulsory">Last name *</string>
@@ -29,8 +27,8 @@
     <string name="next">Next</string>
 
     <string name="url_base">http://192.168.1.73:4040</string>
-    <string name="action_search">Rechercher</string>
-    <string name="finish">Terminer</string>
+    <string name="action_search">Search</string>
+    <string name="finish">Finish</string>
     <string name="profile">Profile</string>
     <string name="roomies_group">Roomies Group</string>
     <string name="profile_informations">Update your profile informations</string>
@@ -45,7 +43,7 @@
     <string name="update_roomie_success">Your roomie has been updated !</string>
     <string name="update_roomie_error">Error : your roomie has not been updated</string>
     <string name="facebook">Facebook</string>
-    <string name="erreur_connexion">Erreur de connexion</string>
+    <string name="erreur_connexion">Connection error</string>
     <string name="button_for_facebook">Button for facebook</string>
     <string name="join_coloc">Join this group</string>
     <string name="leave_roomie">Leave this roomie</string>
